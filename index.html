@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneS| Phân Tích Dự Án Eaton Park</title>
+    <title>ONES| Phân Tích Dự Án Eaton Park</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals & Subtle Greens -->
-    <!-- Application Structure Plan: The application is structured as an interactive, single-page dashboard with a sticky navigation bar for easy access to thematic sections. This non-linear structure replaces the report's sequential format, allowing users to explore data based on their interests. Key sections include an overview, a tabbed interface for sales phases with comparative charts, an interactive deep-dive into the A4 tower, market comparison charts, and a clickable SWOT analysis. This design prioritizes user engagement, data visualization, and intuitive exploration over passive reading, making complex information more digestible and accessible. -->
-    <!-- Visualization & Content Choices: Report Info: Sales performance -> Goal: Compare -> Viz: Bar Chart (Chart.js) -> Interaction: Visual comparison of absorption rates -> Justification: Clearly shows the project's growing success. Report Info: Market positioning -> Goal: Compare -> Viz: Horizontal Bar Chart (Chart.js) -> Interaction: Compare price ranges -> Justification: Visually demonstrates the 'accessible luxury' niche. Report Info: Tower A4 details -> Goal: Explore -> Presentation: Interactive cards -> Interaction: Click to reveal details -> Justification: Allows users to drill down into specific product information without cluttering the UI. All visualizations use Canvas via Chart.js, adhering to the NO SVG/Mermaid constraint. -->
+    <!-- Application Structure Plan: The application is structured as an interactive, single-page dashboard with a sticky navigation bar for easy access to thematic sections. This non-linear structure replaces the report's sequential format, allowing users to explore data based on their interests. Key sections include an overview, a tabbed interface for sales phases with comparative charts, an interactive deep-dive into the A4 tower (including detailed payment timelines), market comparison charts, and a clickable SWOT analysis with investor recommendations. This design prioritizes user engagement, data visualization, and intuitive exploration over passive reading, making complex information more digestible and accessible. -->
+    <!-- Visualization & Content Choices: Report Info: Sales performance -> Goal: Compare -> Viz: Bar Chart (Chart.js) -> Interaction: Visual comparison of absorption rates -> Justification: Clearly shows the project's growing success. Report Info: Market positioning -> Goal: Compare -> Viz: Horizontal Bar Chart (Chart.js) -> Interaction: Compare price ranges -> Justification: Visually demonstrates the 'accessible luxury' niche. Report Info: Tower A4 details -> Goal: Explore -> Presentation: Interactive cards & tabbed payment timelines -> Interaction: Click to reveal details -> Justification: Allows users to drill down into specific product and financial information without cluttering the UI. All visualizations use Canvas via Chart.js, adhering to the NO SVG/Mermaid constraint. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f7f4; 
-            color: #333;
+            background-color: #f9f8f6; 
+            color: #2d3748;
         }
         .chart-container {
             position: relative;
@@ -37,7 +37,7 @@
         .tab-active {
             border-color: #047857; 
             color: #047857;
-            background-color: #d1fae5;
+            background-color: #f0fdf4;
         }
         .nav-link {
             transition: color 0.3s;
@@ -51,6 +51,24 @@
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid #d1d5db;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            top: 0;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 9999px;
+            background-color: #fff;
+            border: 2px solid #059669;
+        }
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
         }
     </style>
 </head>
@@ -78,21 +96,39 @@
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
 
         <section id="hero" class="text-center mb-16">
-            <h2 class="text-3xl md:text-5xl font-extrabold text-emerald-900 mb-4">OneS - Phân Tích Chuyên Sâu Dự Án Eaton Park</h2>
-            <p class="max-w-3xl mx-auto text-lg text-gray-600">Bảng điều khiển tương tác cung cấp cái nhìn toàn diện về chiến lược, hiệu suất bán hàng và tiềm năng đầu tư của dự án Eaton Park từ Gamuda Land.</p>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-emerald-900 mb-4">Phân Tích Chuyên Sâu Dự Án Eaton Park by OneS</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">Bảng điều khiển tương tác cung cấp cái nhìn toàn diện về chiến lược, hiệu suất bán hàng và tiềm năng đầu tư của dự án Eaton Park từ Gamuda Land. Cập nhật mới nhất Giai đoạn 3.</p>
         </section>
 
         <section id="tong-quan" class="mb-16 scroll-mt-20">
             <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">Tổng Quan Dự Án</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <p class="text-sm text-gray-500">Quy mô</p>
+                    <p class="text-2xl font-bold text-emerald-700">3.68 ha</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <p class="text-sm text-gray-500">Số lượng</p>
+                    <p class="text-2xl font-bold text-emerald-700">1,968 căn hộ</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <p class="text-sm text-gray-500">MĐXD Khối tháp</p>
+                    <p class="text-2xl font-bold text-emerald-700">20.74%</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <p class="text-sm text-gray-500">Pháp lý</p>
+                    <p class="text-2xl font-bold text-emerald-700">Sở hữu lâu dài</p>
+                </div>
+            </div>
             <div class="grid md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3 bg-white p-8 rounded-xl shadow-lg">
                     <h4 class="font-semibold text-xl mb-4 text-emerald-800">Thông Tin Chiến Lược</h4>
                     <p class="text-gray-600 mb-6">Eaton Park là khu phức hợp căn hộ hạng sang tọa lạc tại vị trí đắc địa trên mặt tiền Đại lộ Mai Chí Thọ, TP. Thủ Đức, định vị là một "ốc đảo nghỉ dưỡng" giữa lòng đô thị với triết lý thiết kế Sinh học (Biophilic).</p>
                     <ul class="space-y-3 text-gray-700">
                         <li class="flex items-start"><span class="text-emerald-600 font-bold w-32 shrink-0">Chủ đầu tư:</span> Gamuda Land (Malaysia)</li>
-                        <li class="flex items-start"><span class="text-emerald-600 font-bold w-32 shrink-0">Quy mô:</span> 3.68 ha, 6 tòa tháp, 1,968 căn hộ</li>
+                        <li class="flex items-start"><span class="text-emerald-600 font-bold w-32 shrink-0">Quy mô:</span> 6 tòa tháp, 1,968 căn hộ</li>
                         <li class="flex items-start"><span class="text-emerald-600 font-bold w-32 shrink-0">Pháp lý:</span> Hoàn chỉnh, sở hữu lâu dài</li>
-                        <li class="flex items-start"><span class="text-emerald-600 font-bold w-32 shrink-0">Bàn giao:</span> Dự kiến từ Quý 1/2027</li>
+                        <li class="flex items-start"><span class="text-emerald-600 font-bold w-32 shrink-0">Bàn giao:</span> Đợt 1: Q1/2027, Đợt 2 (A3, A4): Q2/2028</li>
                     </ul>
                 </div>
                 <div class="md:col-span-2 text-center">
@@ -115,7 +151,7 @@
             </div>
 
             <div id="tab-content" class="grid lg:grid-cols-2 gap-8 items-center">
-                <div id="phase1" class="tab-pane">
+                <div id="phase1" class="tab-pane bg-white p-8 rounded-xl shadow-lg">
                     <h4 class="text-xl font-bold text-emerald-800 mb-2">Tháp A5 (Grove) & A6 (Strait)</h4>
                     <p class="text-sm text-gray-500 mb-4">Thời gian: Tháng 5 - 6/2024</p>
                     <p class="text-gray-700 mb-4">Giai đoạn khởi động thành công vang dội, thiết lập vị thế vững chắc cho dự án trên thị trường nhờ chiến lược sản phẩm và chính sách thanh toán hấp dẫn.</p>
@@ -125,7 +161,7 @@
                         <p class="font-semibold text-red-600">Chính sách nổi bật: Thanh toán 30% đến khi nhận nhà.</p>
                     </div>
                 </div>
-                <div id="phase2" class="tab-pane hidden">
+                <div id="phase2" class="tab-pane hidden bg-white p-8 rounded-xl shadow-lg">
                     <h4 class="text-xl font-bold text-emerald-800 mb-2">Tháp A1 (Alpine) & A2 (Forest)</h4>
                     <p class="text-sm text-gray-500 mb-4">Thời gian: Tháng 12/2024</p>
                     <p class="text-gray-700 mb-4">Tiếp nối đà thành công, giai đoạn 2 củng cố sức nóng của dự án với lượng đặt chỗ kỷ lục, khẳng định niềm tin của thị trường.</p>
@@ -135,14 +171,14 @@
                         <p class="font-semibold text-red-600">Điểm nhấn: Lượng booking cao gấp 6 lần giỏ hàng.</p>
                     </div>
                 </div>
-                 <div id="phase3" class="tab-pane hidden">
-                    <h4 class="text-xl font-bold text-emerald-800 mb-2">Tháp A4 (Lagoon)</h4>
-                    <p class="text-sm text-gray-500 mb-4">Thời gian: Dự kiến sắp tới</p>
-                    <p class="text-gray-700 mb-4">Tòa tháp được mong chờ nhất với những ưu điểm vượt trội, hứa hẹn sẽ tiếp tục tạo nên cơn sốt trên thị trường bất động sản hạng sang.</p>
+                 <div id="phase3" class="tab-pane hidden bg-white p-8 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold text-emerald-800 mb-2">Tháp A3 (Cove) & A4 (Lagoon)</h4>
+                    <p class="text-sm text-gray-500 mb-4">Thời gian: Dự kiến từ Tháng 10/2025</p>
+                    <p class="text-gray-700 mb-4">"Bộ sưu tập cuối cùng" với những ưu điểm vượt trội, hứa hẹn sẽ tiếp tục tạo nên cơn sốt trên thị trường bất động sản hạng sang.</p>
                     <div class="space-y-2">
                         <p class="font-semibold">Định vị: Sản phẩm cao cấp và riêng tư hơn.</p>
-                        <p class="font-semibold">Mật độ: <span class="text-2xl font-bold text-emerald-600">9 căn/sàn</span> (Thấp nhất dự án)</p>
-                        <p class="font-semibold text-red-600">Lợi điểm độc nhất: Tối đa hóa sự riêng tư và đẳng cấp.</p>
+                        <p class="font-semibold">Mật độ (Tháp A4): <span class="text-2xl font-bold text-emerald-600">9 căn/sàn</span> (Thấp nhất dự án)</p>
+                        <p class="font-semibold text-red-600">Ưu đãi: CK 1% cho booking sớm (T8-T9/2025).</p>
                     </div>
                 </div>
                 <div>
@@ -155,33 +191,110 @@
 
         <section id="thap-a4" class="mb-16 scroll-mt-20">
             <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">Phân Tích Chuyên Sâu Tháp A4 (Lagoon)</h3>
-            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Tháp A4 được định vị là sản phẩm cao cấp nhất với mật độ chỉ 9 căn/sàn. Hãy chọn loại căn hộ để khám phá chi tiết thiết kế, diện tích và tiêu chuẩn bàn giao vượt trội từ các thương hiệu hàng đầu thế giới.</p>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="apartment-card card-hover p-6 bg-white rounded-xl shadow-lg cursor-pointer border-2 border-transparent" data-type="1pn">
-                    <h4 class="font-bold text-lg text-emerald-800">1 Phòng Ngủ</h4>
-                    <p class="text-gray-600">46 - 56 m²</p>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">Tháp A4 được định vị là sản phẩm cao cấp nhất với mật độ chỉ 9 căn/sàn. Hãy khám phá chi tiết thiết kế, các đặc quyền bàn giao và chính sách thanh toán linh hoạt dành riêng cho "bộ sưu tập cuối cùng" này.</p>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-semibold text-xl mb-4 text-emerald-800">Đặc quyền cư dân Lagoon</h4>
+                    <div id="apartment-details" class="bg-white p-8 rounded-xl shadow-lg">
+                         <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 text-emerald-600">✓</span>
+                                <div class="ml-3">
+                                    <h5 class="font-semibold text-gray-800">Bàn giao nâng cấp</h5>
+                                    <p class="text-sm text-gray-600">Trang bị đầy đủ: Máy lạnh âm trần, Tủ lạnh, Máy rửa chén, Máy giặt sấy, Nắp bồn cầu điện tử.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 text-emerald-600">✓</span>
+                                <div class="ml-3">
+                                    <h5 class="font-semibold text-gray-800">Dịch vụ đặc quyền</h5>
+                                    <p class="text-sm text-gray-600">Bao gồm trong phí quản lý: Bellman, Valet parking, Trợ lý khách hàng, Lớp học thể thao & nghệ thuật hàng tuần.</p>
+                                </div>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 text-emerald-600">✓</span>
+                                <div class="ml-3">
+                                    <h5 class="font-semibold text-gray-800">Mật độ thấp nhất</h5>
+                                    <p class="text-sm text-gray-600">Chỉ 9 căn hộ/sàn, tối đa hóa sự riêng tư và yên tĩnh cho trải nghiệm sống đẳng cấp.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="apartment-card card-hover p-6 bg-white rounded-xl shadow-lg cursor-pointer border-2 border-transparent" data-type="2pn">
-                    <h4 class="font-bold text-lg text-emerald-800">2 Phòng Ngủ</h4>
-                    <p class="text-gray-600">77 - 83 m²</p>
+                <div>
+                    <h4 class="font-semibold text-xl mb-4 text-emerald-800">Chính sách thanh toán Giai đoạn 3</h4>
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="flex border-b">
+                            <button data-payment-tab="payment1" class="payment-tab-btn tab-active flex-1 p-3 text-sm font-semibold text-center">Chuẩn</button>
+                            <button data-payment-tab="payment2" class="payment-tab-btn flex-1 p-3 text-sm font-semibold text-center border-transparent text-gray-500">Giãn</button>
+                            <button data-payment-tab="payment3" class="payment-tab-btn flex-1 p-3 text-sm font-semibold text-center border-transparent text-gray-500">Nhanh</button>
+                        </div>
+                        <div class="p-6">
+                            <div id="payment1" class="payment-tab-pane">
+                               <div class="timeline-item pb-4">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">10/2025 (Dự kiến)</p>
+                                    <h5 class="font-semibold">Ký HĐMB: 10%</h5>
+                               </div>
+                               <div class="timeline-item pb-4">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">01/2026 - 09/2026</p>
+                                    <h5 class="font-semibold">Thanh toán 5 đợt: 40%</h5>
+                                    <p class="text-xs text-gray-500">10% + 4 đợt 7.5%</p>
+                               </div>
+                               <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">Q2/2028 (Dự kiến)</p>
+                                    <h5 class="font-semibold">Nhận nhà: 45% + 2% PBT</h5>
+                                    <p class="text-xs text-gray-500">5% còn lại khi nhận sổ hồng.</p>
+                               </div>
+                            </div>
+                            <div id="payment2" class="payment-tab-pane hidden">
+                               <div class="timeline-item pb-4">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">10/2025 (Dự kiến)</p>
+                                    <h5 class="font-semibold">Ký HĐMB: 5%</h5>
+                               </div>
+                               <div class="timeline-item pb-4">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">04/2026 - 10/2027</p>
+                                    <h5 class="font-semibold">Thanh toán 4 đợt (6 tháng/lần): 40%</h5>
+                               </div>
+                               <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">Q2/2028 (Dự kiến)</p>
+                                    <h5 class="font-semibold">Nhận nhà: 50% + 2% PBT</h5>
+                                    <p class="text-xs text-gray-500">5% còn lại khi nhận sổ hồng.</p>
+                               </div>
+                            </div>
+                            <div id="payment3" class="payment-tab-pane hidden">
+                               <div class="timeline-item pb-4">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">10/2025 (Dự kiến)</p>
+                                    <h5 class="font-semibold">Ký HĐMB: 30%</h5>
+                               </div>
+                               <div class="timeline-item pb-4">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">01/2026</p>
+                                    <h5 class="font-semibold">Thanh toán đợt 2: 40%</h5>
+                               </div>
+                               <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <p class="text-sm text-gray-500">Q2/2028 (Dự kiến)</p>
+                                    <h5 class="font-semibold">Nhận nhà: 25% + 2% PBT</h5>
+                                    <p class="text-xs text-gray-500">5% còn lại khi nhận sổ hồng.</p>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="apartment-card card-hover p-6 bg-white rounded-xl shadow-lg cursor-pointer border-2 border-transparent" data-type="3pn">
-                    <h4 class="font-bold text-lg text-emerald-800">3 Phòng Ngủ</h4>
-                    <p class="text-gray-600">100 - 141 m²</p>
-                </div>
-                <div class="apartment-card card-hover p-6 bg-white rounded-xl shadow-lg cursor-pointer border-2 border-transparent" data-type="penthouse">
-                    <h4 class="font-bold text-lg text-emerald-800">Penthouse</h4>
-                    <p class="text-gray-600">260 - 441 m²</p>
-                </div>
-            </div>
-            <div id="apartment-details" class="bg-emerald-50 p-8 rounded-xl min-h-[200px] flex items-center justify-center">
-                 <p class="text-gray-500">Chọn một loại căn hộ để xem chi tiết.</p>
             </div>
         </section>
 
         <section id="so-sanh" class="mb-16 scroll-mt-20">
             <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">So Sánh & Bối Cảnh Thị Trường</h3>
-            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Eaton Park định vị mình một cách khôn ngoan trong phân khúc "hạng sang trong tầm tay". Biểu đồ dưới đây so sánh khoảng giá của dự án với các đối thủ cạnh tranh trọng điểm tại TP. Thủ Đức, cho thấy vị thế độc đáo và tiềm năng của Eaton Park.</p>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Với mức giá mới, Eaton Park khẳng định vị thế vững chắc trong phân khúc hạng sang, cạnh tranh trực tiếp với các dự án cao cấp nhất tại khu vực. Biểu đồ dưới đây so sánh khoảng giá của dự án với các đối thủ trọng điểm tại TP. Thủ Đức, cho thấy sự định vị cao cấp và tiềm năng của Eaton Park.</p>
             <div class="bg-white p-6 rounded-xl shadow-lg">
                 <h4 class="font-semibold text-xl mb-4 text-center text-emerald-800">So Sánh Mức Giá Bán (triệu VNĐ/m²)</h4>
                 <div class="chart-container">
@@ -193,44 +306,49 @@
         <section id="dau-tu" class="scroll-mt-20">
             <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">Phân Tích SWOT & Tiềm Năng Đầu Tư</h3>
             <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Tổng hợp các điểm mạnh, điểm yếu, cơ hội và thách thức để có cái nhìn toàn diện về tiềm năng của Eaton Park. Dựa trên phân tích này, chúng tôi đưa ra các khuyến nghị chiến lược cho từng nhóm khách hàng.</p>
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-green-100 p-6 rounded-lg">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="bg-green-50 p-6 rounded-lg border border-green-200">
                     <h4 class="font-bold text-green-800">Điểm mạnh (Strengths)</h4>
                     <ul class="list-disc list-inside mt-2 text-green-700 text-sm space-y-1">
-                        <li>Chủ đầu tư Gamuda Land uy tín quốc tế</li>
-                        <li>Vị trí mặt tiền Mai Chí Thọ chiến lược</li>
-                        <li>Pháp lý hoàn chỉnh, minh bạch</li>
-                        <li>Thiết kế Biophilic khác biệt, mật độ thấp</li>
-                        <li>Chính sách thanh toán 30% đột phá</li>
+                        <li>Chủ đầu tư Gamuda Land uy tín</li>
+                        <li>Vị trí mặt tiền Mai Chí Thọ</li>
+                        <li>Pháp lý hoàn chỉnh</li>
+                        <li>Thiết kế Biophilic khác biệt</li>
+                        <li>Chính sách thanh toán đột phá</li>
                     </ul>
                 </div>
-                <div class="bg-yellow-100 p-6 rounded-lg">
+                <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
                     <h4 class="font-bold text-yellow-800">Điểm yếu (Weaknesses)</h4>
                     <ul class="list-disc list-inside mt-2 text-yellow-700 text-sm space-y-1">
-                        <li>Giá bán thuộc phân khúc cao, kén khách</li>
-                        <li>Ảnh hưởng bởi tiếng ồn, giao thông trục Mai Chí Thọ</li>
+                        <li>Giá bán thuộc phân khúc cao</li>
+                        <li>Ảnh hưởng bởi giao thông trục Mai Chí Thọ</li>
                     </ul>
                 </div>
-                <div class="bg-blue-100 p-6 rounded-lg">
+                <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
                     <h4 class="font-bold text-blue-800">Cơ hội (Opportunities)</h4>
                     <ul class="list-disc list-inside mt-2 text-blue-700 text-sm space-y-1">
-                        <li>Hưởng lợi lớn khi Nút giao An Phú hoàn thành</li>
-                        <li>Tiềm năng tăng giá đột biến từ KDLTT Rạch Chiếc</li>
-                        <li>Thị trường BĐS cao cấp đang trên đà phục hồi</li>
+                        <li>Hưởng lợi từ Nút giao An Phú</li>
+                        <li>Tiềm năng từ KDLTT Rạch Chiếc</li>
+                        <li>Thị trường BĐS cao cấp phục hồi</li>
                     </ul>
                 </div>
-                <div class="bg-red-100 p-6 rounded-lg">
+                <div class="bg-red-50 p-6 rounded-lg border border-red-200">
                     <h4 class="font-bold text-red-800">Thách thức (Threats)</h4>
                     <ul class="list-disc list-inside mt-2 text-red-700 text-sm space-y-1">
-                        <li>Rủi ro chậm tiến độ hạ tầng công cộng</li>
-                        <li>Cạnh tranh gia tăng trong khu vực</li>
-                        <li>Biến động kinh tế vĩ mô, lãi suất</li>
+                        <li>Rủi ro chậm tiến độ hạ tầng</li>
+                        <li>Cạnh tranh gia tăng</li>
+                        <li>Biến động kinh tế vĩ mô</li>
                     </ul>
                 </div>
             </div>
              <div class="text-center">
                 <h4 class="font-semibold text-xl mb-4 text-emerald-800">Khuyến nghị cho bạn là ai?</h4>
-                <div id="recommendation-details" class="bg-white p-8 rounded-xl min-h-[150px] flex items-center justify-center text-gray-500 shadow-inner">
+                <div class="flex flex-wrap justify-center gap-4 mb-6">
+                    <button class="rec-btn px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition" data-rec="end-user">Mua Để Ở</button>
+                    <button class="rec-btn px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-rec="long-term">Đầu Tư Dài Hạn</button>
+                    <button class="rec-btn px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition" data-rec="short-term">Đầu Tư Ngắn Hạn</button>
+                </div>
+                <div id="recommendation-details" class="bg-white p-8 rounded-xl min-h-[150px] flex items-center justify-center text-gray-500 shadow-inner max-w-4xl mx-auto">
                     Chọn nhóm đối tượng để xem khuyến nghị chi tiết.
                 </div>
              </div>
@@ -239,47 +357,14 @@
 
     <footer class="bg-gray-800 text-white mt-16">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
-            <p>Bảng điều khiển tương tác phân tích dự án Eaton Park.</p>
-            <p>Dữ liệu được tổng hợp từ Báo cáo Phân tích Chuyên sâu.</p>
+            <p>Phân tích dự án Eaton Park by Vũ Trọng Khải - 0902 79 8800.</p>
+            <p>Dữ liệu được tổng hợp từ Báo cáo Phân tích Chuyên sâu, cập nhật tháng 08/2025.</p>
         </div>
     </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        let label = context.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        if (context.parsed.y !== null) {
-                            label += context.parsed.y + '%';
-                        }
-                        return label;
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) {
-                        return value + '%';
-                    }
-                }
-            }
-        }
-    };
+    const chartDefaultFont = { family: 'Inter', size: 12 };
 
     const landUseData = {
         labels: ['Khối tháp (20.7%)', 'Cảnh quan & Tiện ích (51.3%)', 'Khác (28%)'],
@@ -287,6 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
             label: 'Phân Bổ Diện Tích',
             data: [20.74, 51.3, 27.96],
             backgroundColor: ['#065f46', '#10b981', '#a7f3d0'],
+            borderColor: '#f9f8f6',
+            borderWidth: 2,
             hoverOffset: 4
         }]
     };
@@ -297,13 +384,10 @@ document.addEventListener('DOMContentLoaded', () => {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    position: 'bottom',
-                },
+                legend: { position: 'bottom', labels: { font: chartDefaultFont } },
                 tooltip: {
-                    callbacks: {
-                       label: (context) => `${context.label}: ${context.raw.toFixed(1)}%`
-                    }
+                    bodyFont: chartDefaultFont, titleFont: chartDefaultFont,
+                    callbacks: { label: (context) => `${context.label}: ${context.raw.toFixed(1)}%` }
                 }
             }
         }
@@ -323,16 +407,30 @@ document.addEventListener('DOMContentLoaded', () => {
     new Chart(document.getElementById('absorptionRateChart'), {
         type: 'bar',
         data: absorptionRateData,
-        options: chartOptions
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    bodyFont: chartDefaultFont, titleFont: chartDefaultFont,
+                    callbacks: { label: (c) => `Tỷ lệ hấp thụ: ${c.raw}%` }
+                },
+                title: { display: true, text: 'Tỷ Lệ Hấp Thụ Qua Các Giai Đoạn', font: { ...chartDefaultFont, size: 14, weight: '600' } }
+            },
+            scales: {
+                y: { beginAtZero: true, max: 100, ticks: { font: chartDefaultFont, callback: (v) => v + '%' } },
+                x: { ticks: { font: chartDefaultFont } }
+            }
+        }
     });
 
     const priceComparisonData = {
         labels: ['Eaton Park', 'The Global City', 'The Metropole', 'Empire City'],
         datasets: [{
             label: 'Khoảng giá (triệu/m²)',
-            data: [[125, 135], [114, 165], [170, 440], [164, 357]],
-            backgroundColor: '#34d399',
-            borderColor: '#059669',
+            data: [[160, 200], [114, 165], [170, 440], [164, 357]],
+            backgroundColor: '#059669',
+            borderColor: '#047857',
             borderWidth: 1,
             borderSkipped: false,
             borderRadius: 5,
@@ -343,135 +441,55 @@ document.addEventListener('DOMContentLoaded', () => {
         data: priceComparisonData,
         options: {
             indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
+            responsive: true, maintainAspectRatio: false,
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    callbacks: {
-                        label: (context) => `Khoảng giá: ${context.raw[0]} - ${context.raw[1]} triệu/m²`
-                    }
+                    bodyFont: chartDefaultFont, titleFont: chartDefaultFont,
+                    callbacks: { label: (c) => `Khoảng giá: ${c.raw[0]} - ${c.raw[1]} triệu/m²` }
                 }
             },
             scales: {
-                x: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Triệu VNĐ / m²' }
-                }
+                x: { beginAtZero: true, title: { display: true, text: 'Triệu VNĐ / m²', font: chartDefaultFont }, ticks: { font: chartDefaultFont } },
+                y: { ticks: { font: chartDefaultFont } }
             }
         }
     });
 
-    const tabs = document.querySelectorAll('.tab-btn');
-    const panes = document.querySelectorAll('.tab-pane');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('tab-active'));
-            tab.classList.add('tab-active');
-            
-            const target = tab.getAttribute('data-tab');
-            panes.forEach(pane => {
-                if (pane.id === target) {
-                    pane.classList.remove('hidden');
-                } else {
-                    pane.classList.add('hidden');
-                }
+    const setupTabs = (tabSelector, paneSelector) => {
+        const tabs = document.querySelectorAll(tabSelector);
+        const panes = document.querySelectorAll(paneSelector);
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('tab-active'));
+                tab.classList.add('tab-active');
+                const targetId = tab.dataset[Object.keys(tab.dataset)[0]];
+                panes.forEach(pane => {
+                    pane.classList.toggle('hidden', pane.id !== targetId);
+                });
             });
         });
-    });
-
-    const apartmentCards = document.querySelectorAll('.apartment-card');
-    const detailsContainer = document.getElementById('apartment-details');
-    const apartmentDetailsData = {
-        '1pn': {
-            title: 'Căn hộ 1 Phòng Ngủ (46 - 56 m²)',
-            price: 'Giá tham khảo: 6.8 - 8.0 tỷ VNĐ',
-            features: [
-                'Thiết kế tối ưu cho người độc thân, chuyên gia trẻ.',
-                'Phòng ngủ có cửa sổ lớn, đón sáng tự nhiên.',
-                'Logia kết nối bếp, tăng cường thông gió.'
-            ],
-            brands: 'MIELE, Grohe, Duravit, Legrand'
-        },
-        '2pn': {
-            title: 'Căn hộ 2 Phòng Ngủ (77 - 83 m²)',
-            price: 'Giá tham khảo: 9.9 - 12.5 tỷ VNĐ',
-            features: [
-                'Lựa chọn lý tưởng cho các gia đình trẻ.',
-                'Tất cả phòng ngủ đều có mặt thoáng.',
-                'Sàn phòng ngủ lát gỗ kỹ thuật kiểu xương cá sang trọng.'
-            ],
-            brands: 'MIELE, Grohe, Duravit, Legrand, Daikin'
-        },
-        '3pn': {
-            title: 'Căn hộ 3 Phòng Ngủ (100 - 141 m²)',
-            price: 'Giá tham khảo: 14.0 - 19.0 tỷ VNĐ',
-            features: [
-                'Không gian rộng rãi cho gia đình đa thế hệ.',
-                'Thường là căn góc với tầm nhìn 2 mặt thoáng.',
-                'Hệ điều hòa trung tâm Water Cooled Chiller.'
-            ],
-            brands: 'MIELE, Grohe, Duravit, Legrand, Daikin'
-        },
-        'penthouse': {
-            title: 'Penthouse (260 - 441 m²)',
-            price: 'Giá tham khảo: > 25 tỷ VNĐ',
-            features: [
-                'Đỉnh cao của sự sang trọng và độc bản.',
-                'Tầm nhìn 360 độ bao quát thành phố.',
-                'Không gian sống đẳng cấp với tiêu chuẩn bàn giao cao nhất.'
-            ],
-            brands: 'MIELE, Kuppersbusch, Grohe, Duravit, Legrand'
-        }
     };
-    
-    apartmentCards.forEach(card => {
-        card.addEventListener('click', () => {
-            apartmentCards.forEach(c => c.classList.remove('border-emerald-500'));
-            card.classList.add('border-emerald-500');
 
-            const type = card.getAttribute('data-type');
-            const data = apartmentDetailsData[type];
-            
-            detailsContainer.innerHTML = `
-                <div class="w-full">
-                    <h4 class="text-xl font-bold text-emerald-800 mb-2">${data.title}</h4>
-                    <p class="font-semibold text-gray-700 mb-4">${data.price}</p>
-                    <ul class="list-disc list-inside text-gray-600 space-y-1 mb-4">
-                        ${data.features.map(f => `<li>${f}</li>`).join('')}
-                    </ul>
-                    <p class="text-sm text-gray-500"><span class="font-semibold">Thương hiệu bàn giao nổi bật:</span> ${data.brands}</p>
-                </div>
-            `;
-        });
-    });
+    setupTabs('.tab-btn', '.tab-pane');
+    setupTabs('.payment-tab-btn', '.payment-tab-pane');
 
     const recommendationContainer = document.getElementById('recommendation-details');
     const recommendationData = {
         'end-user': {
             title: 'Khách hàng mua để ở',
-            content: 'Lựa chọn lý tưởng nếu ưu tiên chất lượng sống, không gian xanh và tiện ích. Tháp A4 với mật độ thấp là tối ưu cho sự riêng tư. Cần chuẩn bị tâm lý cho những bất tiện về giao thông trong vài năm đầu cho đến khi hạ tầng hoàn thiện.'
+            content: 'Tháp A4 (Lagoon) là lựa chọn lý tưởng. Gói bàn giao nâng cấp đầy đủ thiết bị cao cấp giúp tiết kiệm chi phí và thời gian. Các dịch vụ đặc quyền và mật độ căn hộ thấp nhất dự án đảm bảo sự riêng tư và chất lượng sống vượt trội.'
         },
         'long-term': {
             title: 'Nhà đầu tư dài hạn',
-            content: 'Dự án có tiềm năng tăng giá rất tốt nhờ vị trí và các yếu tố chờ hạ tầng (Nút giao An Phú, KDLTT Rạch Chiếc). Chính sách thanh toán giãn là lợi thế lớn để tối ưu vốn. Phù hợp với nhà đầu tư kiên nhẫn, tầm nhìn 3-5 năm.'
+            content: 'Giai đoạn 3 tiếp tục là cơ hội hấp dẫn. Lịch thanh toán giãn (chỉ 45% trong 2 năm) là công cụ đòn bẩy tài chính tuyệt vời. Tiềm năng tăng giá của dự án vẫn rất lớn, gắn liền với các yếu tố chờ hạ tầng như Nút giao An Phú.'
         },
         'short-term': {
             title: 'Nhà đầu tư ngắn hạn',
-            content: 'Cơ hội "lướt sóng" tốt nhất đã qua ở giai đoạn 1. Tuy nhiên, các căn đẹp tại Tháp A4 vẫn có thể mang lại lợi nhuận nếu thị trường duy trì đà tích cực. Cần cân nhắc kỹ rủi ro thanh khoản và có phương án tài chính dự phòng.'
+            content: 'Cơ hội vẫn còn, đặc biệt với chính sách chiết khấu 1% cho booking sớm. Với sức nóng đã được kiểm chứng, việc bán lại chênh lệch sau khi ký HĐMB là khả thi. Cần hành động nhanh để có suất ưu đãi và chọn căn đẹp.'
         }
     };
     
-    const recommendationButtonsHTML = `
-        <div class="flex flex-wrap justify-center gap-4 mt-6">
-            <button class="rec-btn px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition" data-rec="end-user">Mua Để Ở</button>
-            <button class="rec-btn px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-rec="long-term">Đầu Tư Dài Hạn</button>
-            <button class="rec-btn px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition" data-rec="short-term">Đầu Tư Ngắn Hạn</button>
-        </div>
-    `;
-    
-    document.querySelector('#dau-tu').insertAdjacentHTML('beforeend', recommendationButtonsHTML);
-
     document.querySelectorAll('.rec-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             const type = e.target.getAttribute('data-rec');
